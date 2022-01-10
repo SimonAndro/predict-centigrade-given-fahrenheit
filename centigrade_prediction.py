@@ -25,7 +25,7 @@ x_train = np.random.uniform(1,100,(int(sample_size*(1-test_size)),1)) # generate
 y_train = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_train]) # calculate corresponding Centigrade values
 
 # test set
-x_test = np.random.uniform(101,200,(int(sample_size*test_size),1)) # generate random Fahrenheit values between 1 and 100
+x_test = np.random.uniform(101,200,(int(sample_size*test_size),1)) # generate random Fahrenheit values between 101 and 200
 y_test = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_test]) # calculate corresponding Centigrade values
 
 #
@@ -73,7 +73,7 @@ print("MSE=%s, MAE=%s" % (eval_mse, eval_mae))
 #
 # application of the trained model, predicting values
 #
-x_new = np.random.uniform(201,500,(50,1)) # generate random Fahrenheit values between 1 and 100
+x_new = np.random.uniform(201,500,(50,1)) # generate random Fahrenheit values between 201 and 500
 y_new = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_new]) # calculate corresponding Centigrade values
 
 y_new_predicted = model.predict(x_new)
