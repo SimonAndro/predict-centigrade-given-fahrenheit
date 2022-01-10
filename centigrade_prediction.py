@@ -25,7 +25,7 @@ x_train = np.random.uniform(1,100,(int(sample_size*(1-test_size)),1)) # generate
 y_train = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_train]) # calculate corresponding Centigrade values
 
 # test set
-x_test = np.random.uniform(1,100,(int(sample_size*test_size),1)) # generate random Fahrenheit values between 1 and 100
+x_test = np.random.uniform(101,200,(int(sample_size*test_size),1)) # generate random Fahrenheit values between 1 and 100
 y_test = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_test]) # calculate corresponding Centigrade values
 
 #
@@ -46,12 +46,24 @@ def build_model():
 #
 # model training
 #
-num_epochs = 20
+num_epochs = 10
 model = build_model()
 history = model.fit(x_train, y_train,
                         epochs=num_epochs, batch_size=8, verbose=1)
-print(history.history)                        
+loss_values = history.history['loss']
 
+mae_values = history.history['mae']
+
+epochs = range(1, len(loss_values)+1)
+# training visualization
+plt.figure()
+plt.plot(epochs, loss_values, 'bo', label='Training loss')
+plt.plot(epochs, mae_values, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()    
+plt.show()   
 #
 # model evaluation
 #
@@ -61,10 +73,15 @@ print("MSE=%s, MAE=%s" % (eval_mse, eval_mae))
 #
 # application of the trained model, predicting values
 #
-x_new = np.random.uniform(1,100,(50,1)) # generate random Fahrenheit values between 1 and 100
+x_new = np.random.uniform(201,500,(50,1)) # generate random Fahrenheit values between 1 and 100
 y_new = np.array([(fahrenheit - 32)*(5/9) for fahrenheit in x_new]) # calculate corresponding Centigrade values
 
 y_new_predicted = model.predict(x_new)
-# show the inputs and predicted outputs
-for i in range(len(y_new_predicted)):
-	print("Actual=%s, Predicted=%s" % (y_new[i], y_new_predicted[i]))
+# plot predicted and actual
+plt.figure()
+plt.plot(y_new_predicted, 'b', label='Predicted Values')
+plt.plot(y_new, 'g', label='Actual Values')
+# plt.plot(y_new_predicted, y_new, 'b', label='Predicted Values')
+plt.title('Predicted and Actual Values')
+plt.legend()
+plt.show()
